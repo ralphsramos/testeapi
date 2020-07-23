@@ -1,0 +1,2288 @@
+{
+	"info": {
+		"_postman_id": "2f3134e5-49f6-47f8-820d-11c7d6c3854c",
+		"name": "SAC DIGITAL v2 - Gestor",
+		"description": "Integração das ferramentas disponíveis na plataforma SAC DIGITAL / Panfleto Online.\n\n# Autenticação\n\nDeve-se passar em TODAS rotas o parâmetro Header `Sac-Api-Authorization` com o valor da chave da conta do cliente vinculado a plataforma.\n\n# Limites e Testes\n\nLimite de requisições / minuto: 1.000 requisições\n\nToken para Teste: `API-REST-TESTER`\n\n# Respostas\n\nPor padrão, todas requisições retornam objetos `Response JSON` e parâmetro de `status` ( com valor `true` ou `false`) indicando se a requisição executou a ação com sucesso / falha.\n\n# Tratamento de Erro\n\nRequisições com retornos de erro retonam SEMPPRE uma palavra-chave `type` e `message` indicando o tipo de erro da requisição.\n\nAbaixo, segue possíveis retornos com erros:\n\n`system_error` - Erro interno na API.\n\n`not_found` - Rota não localizada.\n\n`not_allow` - Rota indisponível para o nível de acesso.\n\n`request_limit_exceeded` - Excedido limite de requisições por minuto.\n\n`permission_route` - Rota indisponível (verificar painel de gestão).\n\n`invalid_auth` - O Token de Autenticação está incorreto.\n\n`token_required` - O Token de Autenticação não foi passado por parâmetro.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Contatos",
+			"item": [
+				{
+					"name": "Todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/contact/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"contact",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de contatos vinculados com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página"
+					},
+					"response": []
+				},
+				{
+					"name": "Filtros",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filter\": 1,\n    \"search\": \"Fulano\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/contact/s/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"contact",
+								"s",
+								"1"
+							]
+						},
+						"description": "Listagem de contatos com filtros.\n\n# Paginação:\n\n`/s/{page}` - indique o número da página\n\n\n# Tipos de Filtros:\n\n\n`1 - Palavra Chave` - Filtra por nome ou número do contato\n\n\t{\n\t\t\"filter\": 1,\n\t\t\"search\": \"Fulano\"\n\t}\n\t\n\n`2 - Região` - Filtra por região identificada\n\n\t{\n\t\t\"filter\": 2,\n\t\t\"search\": \"ES\"\n\t}\n\n`3 - Operadora`- Filtrar por operadora\n\n\t{\n\t\t\"filter\": 3,\n\t\t\"search\": \"TIM\"\n\t}\n\n`4 - Gênero ` - Filtra por sexo (F para mulheres, H para homens e I para indefinido)\n\n\t{\n\t\t\"filter\": 4,\n\t\t\"search\": \"F\"\n\t}\n\n`5 - Portados` - Filtrar contato com portabilidade\n\n\t{\n\t\t\"filter\": 5\n\t}\n\n`6 - Bloqueados` - Filtrar contatos com bloqueio\n\n\t{\n\t\t\"filter\": 6\n\t}\n\n`7 - Período`- Filtrar por período de cadastro (Indicando data inicial - final)\n\n\t{\n\t\t\"filter\": 7,\n\t\t\"start\": \"2019-05-01 00:00:00\",\n\t\t\"finish\": \"2019-05-31 23:59:59\"\n\t}\n\n`8 - Importados`- Filtrar contatos importados\n\n\t{\n\t\t\"filter\": 8\n\t}\n\n`9 - E-mail` - Filtrar por email\n\n\t{\n\t\t\"filter\": 9,\n\t\t\"search\": \"alertrack.com.br\"\n\t}\n\n`10 - Lead` - Filtrar por leads ativos\n\n\t{\n\t\t\"filter\": 10\n\t}\n\t\n`11 - Aniversariantes` - Filtrar por contatos que fazem aniversário no mês informado\n\n\t{\n\t\t\"filter\": 11,\n\t\t\"search\": \"03\"\n\t}\n\t\n\t\n# Tratamento de Erros:\n\n`invalid_search` - Os parâmetros de consulta estão inválidos (verificar exemplos acima)."
+					},
+					"response": []
+				},
+				{
+					"name": "Perfil",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/contact/info/65RNv",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"contact",
+								"info",
+								"65RNv"
+							]
+						},
+						"description": "Retorna os dados básicos do contato (nome, telefone, redes sociais, e-mail...)\n\n# Tratamento de Erros:\n\n`invalid_contact` - O ID do contato está incorreto."
+					},
+					"response": []
+				},
+				{
+					"name": "Protocolos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/contact/info/65RNv/protocols/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"contact",
+								"info",
+								"65RNv",
+								"protocols",
+								"1"
+							]
+						},
+						"description": "Listagem de protocolos vinculados ao contato.\n\n# Paginação:\n\n`/protocols/{page}` - indique o número da página\n\n# Tratamento de Erros:\n\n`invalid_contact` - O ID do contato está incorreto."
+					},
+					"response": []
+				},
+				{
+					"name": "Mídias Recebidas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/contact/info/65RNv/medias/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"contact",
+								"info",
+								"65RNv",
+								"medias",
+								"1"
+							]
+						},
+						"description": "Listagem de mídias recebidas vinculadas ao contato.\n\n# Paginação:\n\n`/medias/{page}` - indique o número da página\n\n# Tratamento de Erros:\n\n`invalid_contact` - O ID do contato está incorreto."
+					},
+					"response": []
+				},
+				{
+					"name": "Importar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"number\" : \"+5527981832992\",\n  \"name\": \"Fulano de Tal\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/contact/import",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"contact",
+								"import"
+							]
+						},
+						"description": "Importar contato para agenda da plataforma. Uma validação será realizada antes da inserção, apenas contatos com WhatsApp válidos podem ser importados (a validação será realizada com o canal primário). Você deve informar o número com:\n\n\tCódigo do Páis + Telefone\n\nExemplo: +5527981832992\n\n# Parâmetros \n\nOs dados do contato devem ser indicados no Body da requisição no formato `JSON`. \n\n+ Indique as informações do contato:\n\t\t{\n\t\t  \"number\" : \"+5527981832992\",\n\t\t  \"name\": \"Fulano de Tal\"\n\t\t}\n\n# Tratamento de Erros\n\n`exist_contact` - O número do contato já está cadastrado.\n\n`invalid_param` - Informe os parâmetros necessários.\n\n`invalid_channel` - Seu canal precisa estar ativo para realizar a operação.\n\n`error_valid_wpp` - Não foi possível validar se o contato possui ou não WhatsApp.\n\n`invalid_wpp` - Identificamos que o número não possui conta no WhatsApp.\n\n`error_import` - Falha ao importar contato."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Dados",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\" : \"gender\",\n    \"gender\" : \"M\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/contact/edit/65RNv",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"contact",
+								"edit",
+								"65RNv"
+							]
+						},
+						"description": "Edição das informações principais do contato. O conteúdo`JSON` deve ser passado no Body da requisição.\n\n# Tipos:\n\n`name` - Editar nome do contato\n\t\n\t{\n\t\t\"type\" : \"name\",\n\t\t\"name\" : \"Alertrack\"\n\t}\n\t\n\t\n`email` - Vincular e-mail prinicipal do contato\n\n\t{\n\t\t\"type\" : \"email\",\n\t\t\"email\" : \"contato@sac.digital\"\n\t}\n\t\n`block` - Alterar status do bloqueio da conta\n\n\t{\n\t\t\"type\" : \"block\",\n\t\t\"status\" : true\n\t}\n\t\n`gender` - Alterar sexo do contato (F para feminino, M para masculino e I para indefinido)\n\n\t{\n\t\t\"type\" : \"gender\",\n\t\t\"gender\" : \"F\"\n\t}\n\t\n`observation` - Alterar observação principal do contato\n\n\t{\n\t\t\"type\" : \"observation\",\n\t\t\"obs\" : \"Contato vinculado a empresa Alertrack\"\n\t}\n\t\n`social_medias` - Alterar links das redes sociais. Tipos de redes sociais identificadas: `facebook`, `twitter`, `instagram`, `google`, `linkedin`, `youtube`, `pinterest`\n\n\t{\n\t\t\"type\" : \"social_medias\",\n\t\t\"social\" : \"facebook\",\n\t\t\"url\" : \"https://fb.com/teste\"\n\t}\n\t\n# Tratamento de Erros:\n\n`invalid_contact` - O ID do contato está incorreto.\n\n`error_update` - Ocorreu uma falha ao atualizar dado.\n\n`invalid_param` - Os campos passados estão incorretos / não foram informados."
+					},
+					"response": []
+				},
+				{
+					"name": "Enriquecer Perfil",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\" : \"email\",\n    \"email\" : \"contato@sac.digital\"\n}\n"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/contact/add/65RNv",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"contact",
+								"add",
+								"65RNv"
+							]
+						},
+						"description": "Enriquecer registros dos contatos da plataforma (endereços, dados de pessoa física, jurídica, e-mails e links). O conteúdo`JSON` deve ser passado no Body da requisição.\n\n# Tipos:\n\n`cpf` - Pessoa Física\n\n\t{\n\t    \"type\" : \"cpf\",\n\t    \"cpf\" : \"123.223.222-52\",\n\t    \"primary\" : true\n\t}\n\n`cnpj` - Pessoa Jurídica\n\n\t{\n\t    \"type\" : \"cnpj\",\n\t    \"cnpj\" : \"16907400000115\",\n\t    \"primary\": true\n\t}\n\n`cep` - Endereços Físicos\n\n\t{\n\t    \"type\" : \"cep\",\n\t    \"cep\" : \"29160510\",\n\t    \"address\" : \"Rua Rio Mamoré\",\n\t    \"number\": 64,\n\t    \"complement\": \"CASA\",\n\t    \"neighborhood\": \"Hélio Ferraz\",\n\t    \"city\" : \"Serra\",\n\t    \"uf\" : \"UF\",\n\t    \"primary\": true\n\t}\n\n`social_medias` - Links de redes sociais e etc. Tipos de redes sociais: `facebook`, `twitter`, `google`, `linkedin`, `youtube`, `instagram`, `pinterest`, `web`, `github`, `bitbucket`, `flickr`, `reddit`, `spotify`, `steam`, `trello`, `tumblr`, `vimeo`, `vine`, `wechat`, `wordpress`, `yahoo`\n\n\t{\n\t\t\"type\" : \"social_medias\",\n\t\t\"social_type\" : \"facebook\",\n\t\t\"social_url\" : \"https://fb.com/sac\"\n\t}\n\t\n\t\n`email` - Vincular mais de um e-mail ao contato\n\n\t{\n\t    \"type\" : \"email\",\n\t    \"email\" : \"contato@sac.digital\"\n\t}\n\t\n# Tratamento de Erros:\n\n`invalid_contact` - O ID do contato está incorreto.\n\n`error_insert` - Ocorreu uma falha ao inserir os dados.\n\n`invalid_param` - Os campos passados estão incorretos / não foram informados.\n\n`cpf_exist` - A pessoa já está vinculado ao contato.\n\n`cpf_not_found` - A pessoa não foi localizada (fazer outra tentativa após alguns segundos).\n\n`cnpj_exist` - A empresa já está vinculada ao contato\n\n`cnpj_not_found` - A empresa não foi localizada (fazer outra tentativa após alguns segundos).\n\n`cep_exist` - O endereço já está vinculado ao contato.\n\n`url_exist` - O link já está vinculado ao contato.\n\n`email_exist` - O e-mail já está vinculado ao contato.\n\n`type_required` - Tipo de registro deve ser informado."
+					},
+					"response": []
+				},
+				{
+					"name": "Encaminhar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"department\": \"eB\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/contact/forward/R8NM",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"contact",
+								"forward",
+								"R8NM"
+							]
+						},
+						"description": "Encaminhar contato para atendimento operacional com um departamento ou operador específico.\nOs dados do contato devem ser indicados no Body da requisição no formato `JSON`. \n\n+ Encaminhar para Departamento\n\t\t{\n\t\t\t\"department\": \"eB\"\n\t\t}\n\n+ Encaminhar para Operador\n\t\t{\n\t\t\t\"operator\": \"eB\"\n\t\t}\n\n# Tratamento de Erros\n\n\n`invalid_contact` - Contato inválido\n\n`invalid_params` - Indique o departamento/operador que deseja vincular ao encaminhar\n\n`invalid_department` - ID do departamento está incorreto\n\n`invalid_operator` - ID do operador está incorreto\n\n`operator_offline` - O operador está offline\n\n`contact_in_att` - O contato já está sendo atendido\n\n`invalid_channel` - Canal primário não localizado\n\n`operators_offline`- Todos atendentes do departamento estão offline"
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para visualização e edição dos contatos vinculados.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3aa87bda-cc4c-41dd-a719-2e960ae28db6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "61c98714-6168-47d3-a53b-ee866de431ee",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Recados",
+			"item": [
+				{
+					"name": "Todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/inbox/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"inbox",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem dos recados recebidos com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página"
+					},
+					"response": []
+				},
+				{
+					"name": "Detalhe do Recado",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/inbox/info/1906198A4A3",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"inbox",
+								"info",
+								"1906198A4A3"
+							]
+						},
+						"description": "Detalhes e histórico de mensagens recebidas no protocolo de recados.\n\n# Tratamento de Erros\n\n`invalid_protocol` - Protocolo passado por parâmetro está incorreto."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para visualização dos recados recebidos.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5ad5eaec-fef3-45ec-92bf-0977b459274b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "83cf65ac-46bc-4786-9700-e016d44e9d4e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Canais",
+			"item": [
+				{
+					"name": "Todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/channel/all",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"channel",
+								"all"
+							]
+						},
+						"description": "Listagem dos canais cadastrados e ativos na plataforma."
+					},
+					"response": []
+				},
+				{
+					"name": "Modelos Enterprise",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/channel/6a/templates",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"channel",
+								"6a",
+								"templates"
+							]
+						},
+						"description": "Listagem de modelos de mensagens aprovadas pelo Whatsapp."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para listagem de canais da plataforma.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "445c2dd9-ba55-43c6-bab0-e4ece52835b8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5cd9fcde-14de-4bd3-9b06-d832ed7bcc89",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Departamentos",
+			"item": [
+				{
+					"name": "Todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/department/all",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"department",
+								"all"
+							]
+						},
+						"description": "Listagem dos departamentos cadastrados e ativos na plataforma."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para listagem de departamentos da plataforma.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "445c2dd9-ba55-43c6-bab0-e4ece52835b8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5cd9fcde-14de-4bd3-9b06-d832ed7bcc89",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Operadores",
+			"item": [
+				{
+					"name": "Todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/operator/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"operator",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de operadores cadastrados com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página"
+					},
+					"response": []
+				},
+				{
+					"name": "Agenda",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/operator/Z88R/schedule/2019-01-01/2019-06-30/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"operator",
+								"Z88R",
+								"schedule",
+								"2019-01-01",
+								"2019-06-30",
+								"1"
+							]
+						},
+						"description": "Eventos da agenda do operadora durante o período definido com paginação.\n\n# Paginação:\n\n`/{start_date}/{finish_date}/{page}` - indique o número da página\n\n# Tratamento de Erros\n\n`invalid_operator` - O ID do operador está incorreto.\n\n`invalid_param` - As datas estão no formato incorreto."
+					},
+					"response": []
+				},
+				{
+					"name": "Carteira",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/operator/eB/clients/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"operator",
+								"eB",
+								"clients",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de contatos vinculados a carteira de clientes do operador.\n\n# Paginação\n\n`/all/{page}` - indique o número da página\n\n# Tratamento de Erros\n\n`permission_denied` - Módulo da carteira não está ativo.\n\n`invalid_operator` - Operador não localizado."
+					},
+					"response": []
+				},
+				{
+					"name": "Carteira - Adicionar Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/operator/eB/clients/add/ogX8",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"operator",
+								"eB",
+								"clients",
+								"add",
+								"ogX8"
+							]
+						},
+						"description": "Vincular contato com carteira de clientes do operador\n\n# Tratamento de Erros\n\n`permission_denied` - Módulo da carteira não está ativo.\n\n`invalid_operator` - Operador não localizado.\n\n`invalid_contact`- Contato não localizado.\n\n`exist_contact` - O contato já está vinculado a carteira do operador."
+					},
+					"response": []
+				},
+				{
+					"name": "Carteira - Remover Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/operator/eB/clients/remove/M27M",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"operator",
+								"eB",
+								"clients",
+								"remove",
+								"M27M"
+							]
+						},
+						"description": "Remove vínculo do contato com carteira de clientes do operador\n\n# Tratamento de Erros\n\n`permission_denied` - Módulo da carteira não está ativo.\n\n`invalid_operator` - Operador não localizado.\n\n`invalid_contact`- Contato não localizado.\n\n`invalid_client` - O contato não possui vínculo com este atendente."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para listagem dos dados vinculados aos operadores da plataforma.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "445c2dd9-ba55-43c6-bab0-e4ece52835b8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5cd9fcde-14de-4bd3-9b06-d832ed7bcc89",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Grupos de Contatos",
+			"item": [
+				{
+					"name": "Todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/groups/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"groups",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de grupos cadastrados com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página"
+					},
+					"response": []
+				},
+				{
+					"name": "Contatos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/groups/Enm/contacts/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"groups",
+								"Enm",
+								"contacts",
+								"1"
+							]
+						},
+						"description": "Listagem de contatos vinculados ao grupo com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página\n\n# Tratamento de Erros:\n\n`invalid_group` - Grupo não foi localizado."
+					},
+					"response": []
+				},
+				{
+					"name": "Vincular",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/groups/Enm/add/7jWr7d",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"groups",
+								"Enm",
+								"add",
+								"7jWr7d"
+							]
+						},
+						"description": "Vincular contato com grupo de contatos.\n\n\n# Tratamento de Erros:\n\n`invalid_group` - ID do grupo está incorreto.\n\n`invalid_contact` - ID do contato está incorreto.\n\n`exists_contact` - O contato já está vinculado ao grupo."
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Contato",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/groups/Enm/remove/7jWr7d",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"groups",
+								"Enm",
+								"remove",
+								"7jWr7d"
+							]
+						},
+						"description": "Remover contato do grupo de contatos.\n\n\n# Tratamento de Erros:\n\n`invalid_group` - ID do grupo está incorreto.\n\n`invalid_contact` - ID do contato está incorreto.\n\n`error_contact` - O contato não está vinculado ao grupo."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para listagem dos dados vinculados aos grupos de contatos da plataforma.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "445c2dd9-ba55-43c6-bab0-e4ece52835b8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5cd9fcde-14de-4bd3-9b06-d832ed7bcc89",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Campanhas",
+			"item": [
+				{
+					"name": "Todas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/campaign/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"campaign",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de campanhas executadas, com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página"
+					},
+					"response": []
+				},
+				{
+					"name": "Resumo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/campaign/j9d7/resume",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"campaign",
+								"j9d7",
+								"resume"
+							]
+						},
+						"description": "Informações básicas da campanha.\n\n# Tratamento de Erros:\n\n`invalid_campaign` - ID da campanha está incorreto."
+					},
+					"response": []
+				},
+				{
+					"name": "Mensagens",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/campaign/j9d7/messages/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"campaign",
+								"j9d7",
+								"messages",
+								"1"
+							]
+						},
+						"description": "Listagem de mensagens executadas durante a campanha, com paginação\n\n# Paginação:\n\n`/all/{page}` - indique o número da página\n\n# Tratamento de Erros:\n\n`invalid_campaign` - ID da campanha está incorreto."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para listagem dos dados vinculados a campanhas da plataforma.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "03fda8c3-31dd-4ef1-a745-c18604350bce",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b90f362-78c9-45f8-bcba-ab85f94bd55f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Etiquetas",
+			"item": [
+				{
+					"name": "Todas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/tag/all",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"tag",
+								"all"
+							]
+						},
+						"description": "Listagem de etiquetas cadastradas."
+					},
+					"response": []
+				},
+				{
+					"name": "Vincular",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/tag/7jWr7d/contact/add/Vz",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"tag",
+								"7jWr7d",
+								"contact",
+								"add",
+								"Vz"
+							]
+						},
+						"description": "Vincular etiqueta a um contato.\n\n# Tratamento de Erros:\n\n`invalid_param` - Os parâmetros passados por requisição estão incorretos.\n\n`invalid_tag` - ID da etiqueta está incorreta.\n\n`invalid_contact` - ID do contato está incorreto.\n\n`tag_exists` - A etiqueta já está vinculada ao contato."
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Vínculo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/tag/7jWr7d/contact/remove",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"tag",
+								"7jWr7d",
+								"contact",
+								"remove"
+							]
+						},
+						"description": "Remove etiquetas do contato.\n\n# Tratamento de Erros:\n\n`invalid_param` - Os parâmetros passados por requisição estão incorretos.\n\n`invalid_contact` - ID do contato está incorreto."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para listagem e gestão de etiquetas.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "03fda8c3-31dd-4ef1-a745-c18604350bce",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b90f362-78c9-45f8-bcba-ab85f94bd55f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Protocolos",
+			"item": [
+				{
+					"name": "Todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/protocol/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"protocol",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem dos protocolos de atendimento, com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página"
+					},
+					"response": []
+				},
+				{
+					"name": "Filtros",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filter\" : 7,\n    \"start_at\" : \"2019-06-01\",\n    \"finish_at\" : \"2019-06-30\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/protocol/s/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"protocol",
+								"s",
+								"1"
+							]
+						},
+						"description": "Filtro na listagem dos protocolos de atendimento, com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página\n\n# Filtros:\n\nIndique o tipo de filtro no `JSON` passado no Body da requisição:\n\n`1` - Protocolos com atendimento operacional.\n\n\t{\n\t\t\"filter\" : 1\n\t}\n\t\n`2` - Protocolos de auto atendimento.\n\n\t{\n\t\t\"filter\" : 2\n\t}\n\t\n`3` - Protocolos com filtros de contatos.\n\n\t{\n\t\t\"filter\" : 3,\n\t\t\"search\" : \"5527998\"\n\t}\n\t\n`4` - Protocolos com status, `open` indica se o status é aberto ou fechado, `att` indica se é de atendimento operacional ou auto atendimento\n\n\t{\n\t\t\"filter\" : 4,\n\t\t\"open\" : false,\n\t\t\"att\" : true\n\t}\n\t\n`5` - Protocolos de atendimentos abandonados.\n\n\t{\n\t\t\"filter\" : 5\n\t}\n\t\n`6` - Buscar por protocolo.\n\n\t{\n\t\t\"filter\" : 6,\n\t\t\"search\" : \"21061940558\"\n\t}\n\t\n`7` - Protocolos durante um período.\n\n\t{\n\t\t\"filter\" : 7,\n\t\t\"start_at\" : \"2019-06-01\",\n\t\t\"finish_at\" : \"2019-06-30\"\n\t}\n\t\n`8` - Protocolos vinculados a um atendente.\n\n\t{\n\t\t\"filter\" : 8,\n\t\t\"operator\": \"Z88R\"\n\t}\n\t\n`9` - Protocolos vinculados a um departamento.\n\n\t{\n\t\t\"filter\" : 9,\n\t\t\"department\": \"R1R\"\n\t}\n\t\n`10` - Protocolos vinculados a uma etiqueta de protocolo.\n\n\t{\n\t\t\"filter\" : 10,\n\t\t\"tag\": \"R1R\"\n\t}\n\t\n\t\t\n`11` - Protocolos não atendidos (compartilhamento de atendimento)\n\n\t{\n\t\t\"filter\" : 11\n\t}"
+					},
+					"response": []
+				},
+				{
+					"name": "Detalhes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/protocol/21061940558/info",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"protocol",
+								"21061940558",
+								"info"
+							]
+						},
+						"description": "Detalhes do protocolo.\n\n# Tratamento de Erros:\n\n`invalid_protocol` - Protocolo informado não foi localizado."
+					},
+					"response": []
+				},
+				{
+					"name": "Mensagens",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/protocol/21061940558/messages",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"protocol",
+								"21061940558",
+								"messages"
+							]
+						},
+						"description": "Histórico de mensagens trocadas durante o protocolo."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para listagem dos protocolos.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "03fda8c3-31dd-4ef1-a745-c18604350bce",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b90f362-78c9-45f8-bcba-ab85f94bd55f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Notificações",
+			"item": [
+				{
+					"name": "Notificar via Whatsapp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\" : \"text\",\n    \"text\" : \"Olá, tudo bem?\",\n    \"channel\" : \"Y0\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/notification/add/wNMy",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"notification",
+								"add",
+								"wNMy"
+							]
+						},
+						"description": "Adicionar na fila de notificações, uma nova mensagem para um contato. O processo de envio da notificação ocorre em FILA. Após requisitado o envio, será retornado um `notification_id` com o identificador do envio. Você poderá consultar esse identificador na rota de status da notificação.\n\n# Tipos de Envios:\n\nToda estrutura do envio da notificação deve ser passada no formato `JSON` no Body da requisição.\n\n`text` - Envio de texto simples/link.\n\n\t{\n\t\t\"type\" : \"text\",\n\t\t\"text\" : \"Olá, tudo bem?\"\n\t}\n\t\n`image` - Envio de imagem com legenda (Máximo 1mb).\n\n\t{\n\t\t\"type\" : \"image\",\n\t\t\"text\" : \"Olá, tudo bem?\",\n\t\t\"url\": \"https://sample-videos.com/img/Sample-jpg-image-50kb.jpg\"\n\t}\n\t\n`video` - Envio de vídeo com legenda (Máximo 5mb).\n\n\t{\n\t\t\"type\" : \"video\",\n\t\t\"text\" : \"Olá, tudo bem?\",\n\t\t\"url\": \"https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4\"\n\t}\n\t\n`audio` - Envio de áudio (Máximo 3mb).\n\n\t{\n\t\t\"type\" : \"audio\",\n\t\t\"url\": \"https://sample-videos.com/audio/mp3/crowd-cheering.mp3\"\n\t}\n\t\n`file` - Envio de arquivo (Máximo 5mb)\n\n\t{\n\t\t\"type\" : \"file\",\n\t\t\"url\": \"https://sample-videos.com/pdf/Sample-pdf-5mb.pdf\"\n\t}\n\t\n`vcard` - Enviar cartão virtual\n\n\t{\n\t\t\"type\" : \"vcard\",\n\t\t\"name\": \"SAC\",\n\t\t\"phone\" : \"5527998282828\"\n\t}\n\t\n`map` - Enviar Localização\n\n\t{\n\t\t\"type\" : \"map\",\n\t\t\"place\" : \"B2W\",\n\t\t\"lat\" : -22.8969485,\n\t\t\"lon\" : -43.1856928\n\t}\n\t\nPara especificar o canal que deseja enviar a notificação, adicione o parâmetro `channel` no JSON da requisição, por exemplo:\n\n\t\t{\n\t\t\t\"type\" : \"text\",\n\t\t\t\"text\" : \"Olá, tudo bem?\",\n\t\t\t\"channel\" : \"Y0\"\n\t\t}\n\t\nPara especificar um modelo de mensagem a ser enviado na notificação, adicione o parâmetro `template` no JSON da requisição, por exemplo:\n\n\t\t{\n\t\t\t\"type\" : \"template\",\n\t\t\t\"template\" : \"Er\",\n\t\t\t\"channel\" : \"Y0\"\n\t\t}\n\t\n# Tratamento de Erros\n\n`invalid_param` - Os parâmetros necessários estão incorretos.\n\n`invalid_type` - Tipo de notificação inválida.\n\n`invalid_contact` - O ID do contato está incorreto."
+					},
+					"response": []
+				},
+				{
+					"name": "Notificação Direta via WhatsApp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"number\" : \"5527992835176\",\n    \"name\" : \"Ed.ney\",\n    \"type\" : \"text\",\n    \"text\" : \"Olá, tudo bem?\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/notification/direct",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"notification",
+								"direct"
+							]
+						},
+						"description": "Adicionar na fila de notificações, uma nova mensagem para um contato. O processo de envio da notificação ocorre em FILA. Após requisitado o envio, será retornado um `notification_id` com o identificador do envio. Você poderá consultar esse identificador na rota de status da notificação.\n\n# Tipos de Envios:\n\nToda estrutura do envio da notificação deve ser passada no formato `JSON` no Body da requisição.\n\n`text` - Envio de texto simples/link.\n\n\t{\n\t\t\"number\" : \"5527981832992\",\n\t\t\"name\" : \"Fulano\",\n\t\t\"type\" : \"text\",\n\t\t\"text\" : \"Olá, tudo bem?\"\n\t}\n\t\n`image` - Envio de imagem com legenda (Máximo 1mb).\n\n\t{\n\t\t\"number\" : \"5527981832991\",\n\t\t\"name\" : \"Fulano\",\n\t\t\"type\" : \"image\",\n\t\t\"text\" : \"Olá, tudo bem?\",\n\t\t\"url\": \"https://sample-videos.com/img/Sample-jpg-image-50kb.jpg\"\n\t}\n\t\n`video` - Envio de vídeo com legenda (Máximo 5mb).\n\n\t{\n\t\t\"number\" : \"5527981832993\",\n\t\t\"name\" : \"Fulano\",\n\t\t\"type\" : \"video\",\n\t\t\"text\" : \"Olá, tudo bem?\",\n\t\t\"url\": \"https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4\"\n\t}\n\t\n`audio` - Envio de áudio (Máximo 3mb).\n\n\t{\n\t\t\"number\" : \"5527981832924\",\n\t\t\"name\" : \"Fulano\",\n\t\t\"type\" : \"audio\",\n\t\t\"url\": \"https://sample-videos.com/audio/mp3/crowd-cheering.mp3\"\n\t}\n\t\n`file` - Envio de arquivo (Máximo 5mb)\n\n\t{\n\t\t\"number\" : \"5527981832911\",\n\t\t\"name\" : \"Fulano\",\n\t\t\"type\" : \"file\",\n\t\t\"url\": \"https://sample-videos.com/pdf/Sample-pdf-5mb.pdf\"\n\t}\n\t\n`vcard` - Enviar cartão virtual\n\n\t{\n\t\t\"number\" : \"5527981832922\",\n\t\t\"name\" : \"Fulano\",\n\t\t\"type\" : \"vcard\",\n\t\t\"name\": \"SAC\",\n\t\t\"phone\" : \"5527998282828\"\n\t}\n\t\n`map` - Enviar Localização\n\n\t{\n\t\t\"number\" : \"5527981832915\",\n\t\t\"name\" : \"Fulano\",\n\t\t\"type\" : \"map\",\n\t\t\"place\" : \"B2W\",\n\t\t\"lat\" : -22.8969485,\n\t\t\"lon\" : -43.1856928\n\t}\n\t\nPara especificar o canal que deseja enviar a notificação, adicione o parâmetro `channel` no JSON da requisição, por exemplo:\n\n\t\t{\n\t\t\t\"number\" : \"5527981832992\",\n\t\t\t\"name\" : \"Fulano\",\n\t\t\t\"type\" : \"text\",\n\t\t\t\"text\" : \"Olá, tudo bem?\"\n\t\t\t\"channel\" : \"Y0\"\n\t\t}\n\t\n\t\n# Tratamento de Erros\n\n`invalid_param` - Os parâmetros necessários estão incorretos.\n\n`invalid_type` - Tipo de notificação inválida.\n\n`invalid_number` - Número incorreto.\n\n`invalid_channel` - Seu canal precisa estar ativo para realizar a operação.\n\n`error_valid_wpp` - Não foi possível validar se o contato possui ou não WhatsApp.\n\n`invalid_wpp` - Identificamos que o número não possui conta no WhatsApp.\n\n`error_import` - Falha ao importar contato."
+					},
+					"response": []
+				},
+				{
+					"name": "Status da Notificação",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/notification/status/Kk8kJ",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"notification",
+								"status",
+								"Kk8kJ"
+							]
+						},
+						"description": "Consultar status do envio da notificação."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para envio e status de notificações.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "445c2dd9-ba55-43c6-bab0-e4ece52835b8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5cd9fcde-14de-4bd3-9b06-d832ed7bcc89",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Monitores",
+			"item": [
+				{
+					"name": "Todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/monitor/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"monitor",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de monitores cadastrados com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página"
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para listagem dos dados vinculados aos monitores da plataforma.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "445c2dd9-ba55-43c6-bab0-e4ece52835b8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5cd9fcde-14de-4bd3-9b06-d832ed7bcc89",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Módulo - Cupom ",
+			"item": [
+				{
+					"name": "Todos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/coupon/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"coupon",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de cupons cadastrados, com paginação.\n\n# Paginação\n\n`/all/{page}` - indique o número da página\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível."
+					},
+					"response": []
+				},
+				{
+					"name": "Cupons",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/coupon/1NL/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"coupon",
+								"1NL",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de cupons gerados pelos contatos, com paginação.\n\n# Paginação\n\n`/all/{page}` - indique o número da página\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível.\n\n`invalid_coupon` - Cupom não localizado."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/coupon/1NL/used/PROM020201029129219",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"coupon",
+								"1NL",
+								"used",
+								"PROM020201029129219"
+							]
+						},
+						"description": "Atualizar data de utilização do cupom de desconto.\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível.\n\n`invalid_coupon` - Cupom não localizado.\n\n`invalid_code` - Código do cupom não foi localizado."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para dados vinculados aos cupons de desconto.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a1e8bf7a-3991-4166-9726-cbf14f661d6b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e48c3d9f-84de-4ab7-93c7-1ce5e6bbc7b1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Módulo - Produtos",
+			"item": [
+				{
+					"name": "Categorias",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/products/cat/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"products",
+								"cat",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de categorias de produtos cadastrados, com paginação.\n\n# Paginação\n\n`/all/{page}` - indique o número da página\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível."
+					},
+					"response": []
+				},
+				{
+					"name": "Produtos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/products/cat/7jWr7d/itens/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"products",
+								"cat",
+								"7jWr7d",
+								"itens",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem produtos de uma categoria, com paginação.\n\n# Paginação\n\n`/itens/all/{page}` - indique o número da página\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível.\n\n`invalid_cat` - Categoria não localizada."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para dados vinculados aos produtos cadastrados.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a1e8bf7a-3991-4166-9726-cbf14f661d6b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e48c3d9f-84de-4ab7-93c7-1ce5e6bbc7b1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Módulo - Correios",
+			"item": [
+				{
+					"name": "Vincular",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"code\" : \"PU412900210BR\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/correios/add/w3MOR",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"correios",
+								"add",
+								"w3MOR"
+							]
+						},
+						"description": "Vincular código dos Correios com contato.\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível.\n\n`invalid_param` - O código dos correios não foi identificado.\n\n`invalid_contact` - O ID do contato não foi localizado.\n\n`exists_code` - O código já está vinculado ao contato.\n\n`invalid_code` - Código não localizado na base dos Correios."
+					},
+					"response": []
+				},
+				{
+					"name": "Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/correios/status/PU412900210BR",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"correios",
+								"status",
+								"PU412900210BR"
+							]
+						},
+						"description": "Consultar status do código de rastreio dos Correios.\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para vincular códigos dos correios.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a1e8bf7a-3991-4166-9726-cbf14f661d6b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e48c3d9f-84de-4ab7-93c7-1ce5e6bbc7b1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Módulo - Portabilidade",
+			"item": [
+				{
+					"name": "Todos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/portable/check/5527998282828",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"portable",
+								"check",
+								"5527998282828"
+							]
+						},
+						"description": "Consultar portabilidade de um número.\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para validação de portabilidade.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a1e8bf7a-3991-4166-9726-cbf14f661d6b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e48c3d9f-84de-4ab7-93c7-1ce5e6bbc7b1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Módulo - SMSIDEAL",
+			"item": [
+				{
+					"name": "Notificar Contato WhatsApp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"text\" : \"Oi, tudo bem? Isso é um envio de SMS\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/sms/send/w3MOR",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"sms",
+								"send",
+								"w3MOR"
+							]
+						},
+						"description": "Envio de SMS para contato. O corpo da mensagem deve ser passado em formato `JSON` no Body da requisição.\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível.\n\n`invalid_contact` - O ID do contato não foi localizado.\n\n`invalid_param` - Parâmetros da mensagem estão faltando / incorretos."
+					},
+					"response": []
+				},
+				{
+					"name": "Notificação Direta SMS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"number\": \"553181832990\",\n\t\"com\" : 1,\n\t\"text\" : \"Oi, tudo bem? Isso é um envio de SMS\"\n}"
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/sms/direct",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"sms",
+								"direct"
+							]
+						},
+						"description": "Envio de SMS para número de celular. O corpo da mensagem deve ser passado em formato `JSON` no Body da requisição:\n\n+ Exemplo de Requisição\n\n\t\t{\n\t\t\t\"number\": \"5527981832990\",\n\t\t\t\"com\" : 1,\n\t\t\t\"text\" : \"Oi, tudo bem? Isso é um envio de SMS\"\n\t\t}\n\t\t\n`number` - indica o número de celular que irá receber o sms.\n\n`com` - indica a rota do serviço a ser utilizado, sendo:\n\t\t\n\t\t1 - Envio Short Code Internacional\n\t\t2 - Envio Short Code Nacional\n\t\t\n`text` - mensagem quer será encaminhada para o telefone.\n\n# Tratamento de Erros\n\n`permission_denied` - Permissão negada! Verificar se módulo está disponível.\n\n`invalid_param` - Parâmetros da mensagem estão faltando / incorretos.\n\n`invalid_service` - Serviço indicado na rota está incorreto."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para envios de SMS.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a1e8bf7a-3991-4166-9726-cbf14f661d6b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e48c3d9f-84de-4ab7-93c7-1ce5e6bbc7b1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Módulo - Grupos de WhatsApp",
+			"item": [
+				{
+					"name": "Todos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/groups_wa/all/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"groups_wa",
+								"all",
+								"1"
+							]
+						},
+						"description": "Listagem de grupos de WhatsApp identificados, com paginação.\n\n# Paginação:\n\n`/all/{page}` - indique o número da página"
+					},
+					"response": []
+				},
+				{
+					"name": "Participantes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/groups_wa/mvVl/members",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"groups_wa",
+								"mvVl",
+								"members"
+							]
+						},
+						"description": "Listagem de participantes dos grupos (quando identificado).\n\n# Tratamento de Erros\n\n`invalid_group` - ID do grupo está incorreto."
+					},
+					"response": []
+				},
+				{
+					"name": "Mensagens",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Sac-Api-Authorization",
+								"type": "text",
+								"value": "API-REST-TESTER"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://api.sac.digital/v2/client/groups_wa/md0V/messages/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"sac",
+								"digital"
+							],
+							"path": [
+								"v2",
+								"client",
+								"groups_wa",
+								"md0V",
+								"messages",
+								"1"
+							]
+						},
+						"description": "Histórico de mensagens trocadas nos grupos, com paginação.\n\n# Paginação:\n\n`/messages/{page}` - indique o número da página\n\n# Tratamento de Erros\n\n`invalid_group` - ID do grupo está incorreto."
+					},
+					"response": []
+				}
+			],
+			"description": "Rotas da API para listagem de dados vinculados a grupos de WhatsApp.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a1e8bf7a-3991-4166-9726-cbf14f661d6b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e48c3d9f-84de-4ab7-93c7-1ce5e6bbc7b1",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Testes",
+			"item": [
+				{
+					"name": "Webhook URL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"event\": \"contact_new\",\n\t\"contact\": {\n\t\t\"name\" : \"Fulano de Tal\",\n\t\t\"number\" : \"527998282828\",\n\t\t\"created_at\" : \"2019-09-13 10:39:00\"\n \t}\n}"
+						},
+						"url": {
+							"raw": "http://sac.online/api/v2/client/test/webhook",
+							"protocol": "http",
+							"host": [
+								"sac",
+								"online"
+							],
+							"path": [
+								"api",
+								"v2",
+								"client",
+								"test",
+								"webhook"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "2a1851da-e405-4a83-b9fa-a0460a71f486",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e6678227-6bca-4db6-929a-e25fed647464",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
